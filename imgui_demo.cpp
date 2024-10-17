@@ -120,6 +120,8 @@ Index of this file:
 #include <emscripten/version.h>     // __EMSCRIPTEN_major__ etc.
 #endif
 
+#include "C:\Projects\imgui\imgui_bezier.h"
+
 // Visual Studio warnings
 #ifdef _MSC_VER
 #pragma warning (disable: 4127)     // condition expression is constant
@@ -389,6 +391,8 @@ void ImGui::ShowDemoWindow(bool* p_open)
     static ImGuiDemoWindowData demo_data;
 
     // Examples Apps (accessible from the "Examples" menu)
+    ShowBezierDemo();
+
     if (demo_data.ShowMainMenuBar)          { ShowExampleAppMainMenuBar(); }
     if (demo_data.ShowAppDocuments)         { ShowExampleAppDocuments(&demo_data.ShowAppDocuments); }
     if (demo_data.ShowAppAssetsBrowser)     { ShowExampleAppAssetsBrowser(&demo_data.ShowAppAssetsBrowser); }
