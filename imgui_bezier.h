@@ -124,7 +124,7 @@ namespace ImGui
             for (int i = 0; i < IM_ARRAYSIZE(presets); ++i) {
                 if (i == 1 || i == 9 || i == 17) ImGui::Separator();
                 if (ImGui::MenuItem(presets[i].name, NULL, P[4] == i)) {
-                    P[4] = i;
+                    P[4] = (float)i;
                     reload = 1;
                 }
             }
@@ -145,14 +145,14 @@ namespace ImGui
         // bezier widget
 
         const ImGuiStyle& Style = GetStyle();
-        const ImGuiIO& IO = GetIO();
+        //const ImGuiIO& IO = GetIO();
         ImDrawList* DrawList = GetWindowDrawList();
         ImGuiWindow* Window = GetCurrentWindow();
         if (Window->SkipItems)
             return false;
 
         // header and spacing
-        int changed = SliderFloat4(label, P, 0, 1, "%.3f", 1.0f);
+        int changed = SliderFloat4(label, P, 0, 1, "%.3f", /*1.0f*/0);
         int hovered = IsItemActive() || IsItemHovered(); // IsItemDragged() ?
         Dummy(ImVec2(0, 3));
 
@@ -179,13 +179,13 @@ namespace ImGui
         RenderFrame(bb.Min, bb.Max, GetColorU32(ImGuiCol_FrameBg, 1), true, Style.FrameRounding);
 
         // background grid
-        for (int i = 0; i <= Canvas.x; i += (Canvas.x / 4)) {
+        for (int i = 0; i <= Canvas.x; i += int(Canvas.x / 4)) {
             DrawList->AddLine(
                 ImVec2(bb.Min.x + i, bb.Min.y),
                 ImVec2(bb.Min.x + i, bb.Max.y),
                 GetColorU32(ImGuiCol_TextDisabled));
         }
-        for (int i = 0; i <= Canvas.y; i += (Canvas.y / 4)) {
+        for (int i = 0; i <= Canvas.y; i += int(Canvas.y / 4)) {
             DrawList->AddLine(
                 ImVec2(bb.Min.x, bb.Min.y + i),
                 ImVec2(bb.Max.x, bb.Min.y + i),
@@ -217,7 +217,8 @@ namespace ImGui
                     float& px = (P[selected * 2 + 0] += GetIO().MouseDelta.x / Canvas.x);
                     float& py = (P[selected * 2 + 1] -= GetIO().MouseDelta.y / Canvas.y);
 
-                    if (AREA_CONSTRAINED) {
+                    static bool area_constrained = AREA_CONSTRAINED;
+                    if (area_constrained) {
                         px = (px < 0 ? 0 : (px > 1 ? 1 : px));
                         py = (py < 0 ? 0 : (py > 1 ? 1 : py));
                     }

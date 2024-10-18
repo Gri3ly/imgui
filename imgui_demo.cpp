@@ -120,7 +120,7 @@ Index of this file:
 #include <emscripten/version.h>     // __EMSCRIPTEN_major__ etc.
 #endif
 
-#include "C:\Projects\imgui\imgui_bezier.h"
+#include "imgui_bezier.h"
 
 // Visual Studio warnings
 #ifdef _MSC_VER
